@@ -1,12 +1,8 @@
 # importing libraries
 import pandas as pd
-import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
 from sklearn.metrics import mean_squared_error, r2_score
 
 data = pd.read_csv("./Food_Production.csv")
@@ -62,6 +58,25 @@ print('Model 3 R-squared on test data:', model_3_r_squared)
 
 y_predicted = model1.predict(X_test1)
 
-mse = mean_squared_error(Y_test1, y_predicted)
-print('The Mean Squared Error is:', mse)
 
+# Predicted Values
+print('=======================================')
+coefficients = model1.coef_
+print('The Coefficients are:', coefficients) # The Coefficients are: [1.38709946 3.37106976 1.21181311]
+intercept = model1.intercept_ 
+print('The Intercept is:', intercept) # The Intercept is: 0.44836422727058434
+
+model_mse = mean_squared_error(Y_test1, y_predicted) 
+print('The Mean Squared Error is:', model_mse) # The Mean Squared Error is: 9.405256391199405
+model_r2_score = r2_score(Y_test1, y_predicted)
+print('The R2 is:', model_r2_score) # The R2 is: 0.8957300065577624
+print('=======================================')
+
+plt.figure(figsize=(8, 6))
+plt.scatter(X_test1['Farm'], Y_test1, color='r', label='Farm')
+plt.scatter(X_test1['Processing'], Y_test1, color='g', label='Processing')
+plt.scatter(X_test1['Transport'], Y_test1, color='b', label='Transport')
+# plt.plot(Y_test1, y_predicted, color='y', label='Best Fit Line')
+plt.title('Linear Regression')
+plt.legend()
+plt.show()
